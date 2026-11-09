@@ -1,0 +1,9 @@
+# dxvxm/defs.yaml
+type: dagster.DefsFolderComponent
+
+post_processing:
+  assets:
+    - target: "*"
+      attributes:
+        tags:
+          proyecto: "dxvxd"   

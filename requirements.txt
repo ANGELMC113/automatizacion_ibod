@@ -1,0 +1,8 @@
+ckanapi>=4.11
+dagster>=1.13.26
+dagster-dg-cli>=1.13.26
+dagster-webserver>=1.13.26
+ipykernel>=7.4.0
+jupyter>=1.1.1
+jupyterlab>=4.6.4
+pandas>=3.0.6
