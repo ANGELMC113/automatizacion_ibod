@@ -1,0 +1,8 @@
+{
+  "name": "Remix DataFlow Map",
+  "description": "Visualize and document your end-to-end ETL processes, tracking dataset dependencies from raw sources to final client products.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
