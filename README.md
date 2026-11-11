@@ -1,3 +1,14 @@
+# Automatización IBOD
+
+Este proyecto tiene 3 partes fundamentales:
+
+1. [Catálogo](./catalogo-flujos/README.md) (sin finalizar; se deja a futuro)
+
+2. [Orquestación](./dagster-ibod/README.md) (Dagster + Jupyter Lab)
+
+3. [Análisis de datos](./notebooks/README.md) (Jupyter Notebooks)
+
+
 ## Puesta en marcha (EN CONSTRUCCIÓN)
 
 - Nota: esta sección aún está en construcción. Las indicaciones sirven para instalar la versión en desarrollo del software y usarlo en el mismo dispositivo en el que se instala, y no en un servidor diferente del cliente.
