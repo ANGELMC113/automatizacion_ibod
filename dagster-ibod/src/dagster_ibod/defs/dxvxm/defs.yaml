@@ -6,4 +6,4 @@ post_processing:
     - target: "*"
       attributes:
         tags:
-          proyecto: "dxvxd"   
+          ambito: "dxvxd"   

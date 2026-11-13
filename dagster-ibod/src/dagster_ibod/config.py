@@ -18,6 +18,12 @@ Luego, se debe escribir aquí el nombre de la carpeta.
 
 carpeta_input_objetivo: str = "tests" # "2026"
 
+ANYO_OBJETIVO = "2025"
+"""El año objetivo se utiliza de una forma diferente según el dataset.
+- Para algunos datasets, cogemos todos los años hasta el año objetivo,
+    a partir de un cierto año inicial (distinto en cada dataset).
+- Para otros datasets, colo se cogen los datos correspondientes al año objetivo."""
+
 
 # Metadatos ____________________________________________________________________________________________________
 
@@ -58,6 +64,17 @@ PATH_DATA_DXVXD_INPUT = Path(PATH_DATA / "dxvxd" / "input" / carpeta_input_objet
 # Otras
 
 NUMERO_MAXIMO_FILAS_MUESTRA: int = 20
+
+
+# Columnas estándar ____________________________________________________________________________________________
+"""
+Nos interesa que estas columnas:
+- Siempre se llamen igual
+- Siempren tengan los mismos valores
+"""
+ANYO = "Año"
+CCAA = "CCAA"
+PROVINCIA = "Provincia"
 
 
 # Debug ________________________________________________________________________________________________________

@@ -1,3 +1,7 @@
+# Data
+dagster-ibod/data/
+notebooks/dxvxm/data/
+
 # Project
 .dagster/
 .dg/

@@ -30,19 +30,29 @@ ________________________________________________________________________________
 
 Se define la siguiente convención:
 
-- Todo dataset tiene:
-    - Un "codigo" corto, obligatorio, no único en general, que sirve para ordenar los datasets alfabéticamente.
-        Se asigna en los metadatos.
+- Todo dataset debe tener:
+    - 3 keys de metadatos obligatorias, que se asignan en el @dg.asset:
+        - proyecto (usualmente "generico", "espanya", "caatlunya", "santa_coloma_g", "lleida"...)
+        - codigo: corto, no único en general (pero si en conjunto con el ámbito y el proyecto)
+        - idioma (usualmente "esp" o "cat")
+
     - Un nombre único, asignado en el código.
+        Por ahora, es "invisible", pero se puede añadir al nombre del archivo.
+
+    - Un ámbito, asignado en defs.yaml dentro de cada ámbito.
 
 - Además, cualquier dataset puede tener más metadatos. Se recomienda poner:
-    - "idioma", si vamos a usar el dataset en algún proyecto y nos interesa apuntarlo.
-    - "visualizacion", en caso de que el dataset se pueda subir directamente a Flourish.
+    - "visualizaciones", en caso de que el dataset se pueda subir a Flourish para múltiples visualizaciones.
 
 Más abajo se determina el formato que pueden tener los metadatos y las posibles claves y valores.
 
 De esta forma, un dataset se almacena en:
-dagster-ibod/data/codigo-nombre/codigo-nombre-timestamp.csv
+- Una carpeta de output por ámbito:
+    dagster-ibod/data/ambito/output/
+- Una subcarpeta por dataset y un archivo por versión:
+    identificador/identificador-timestamp.csv
+
+Siendo el identificador ambito-proyecto-codigo-idioma
 
 Se recomienda mirar el archivo assets_feminicidios para ver cómo se definen los assets y los metadatos.
 
@@ -168,19 +178,30 @@ def get_csv_path(
     tags = context.assets_def.tags_by_key[asset_key]
 
     # Obtener tags del dataset
-    codigo = tags.get("codigo")
-    proyecto = tags.get("proyecto")
-
+    ambito = tags.get("ambito")         # Definida en defs.yaml dentro de cada ambito
+    proyecto = tags.get("proyecto")     # Definida en el asset
+    codigo = tags.get("codigo")         # Definida en el asset
+    idioma = tags.get("idioma")         # Definida en el asset
+    
+    if not isinstance(proyecto, str):
+        raise ValueError(
+            f"Tag de ámbito no asignada para el asset {asset_key}. "
+            'La tag "ambito" es obligatoria. Se debe definir a partir de un archivo defs.yaml.'
+        )
+    if not isinstance(proyecto, str):
+        raise ValueError(
+            f"Tag de proyecto inexistente para el asset {asset_key}. "
+            'La tag "proyecto" es obligatoria. Se debe definir en el archivo .py.'
+        )
     if not isinstance(codigo, str):
         raise ValueError(
             f"Tag de código inexistente para el asset {asset_key}. "
             'La tag "codigo" es obligatoria. Se debe definir en el archivo .py.'
         )
-
-    if not isinstance(proyecto, str):
+    if not isinstance(idioma, str):
         raise ValueError(
-            f"Tag de proyecto no asignada para el asset {asset_key}. "
-            'La tag "proyecto" es obligatoria. Se debe definir a partir de un archivo defs.yaml.'
+            f"Tag de idioma inexistente para el asset {asset_key}. "
+            'La tag "idioma" es obligatoria. Se debe definir en el archivo .py.'
         )
 
     # Generar nombre del dataset a partir del AssetKey
@@ -188,10 +209,12 @@ def get_csv_path(
         # Esto permite que una key sea una lista en lugar de un str
 
     # Construir identificador
-    identificador = f"{codigo}-{nombre}"
+    identificador = f"{ambito}-{proyecto}-{codigo}-{idioma}"
+        # TODO: decidir si añadimos "nombre" (el nombre de la función en Python)
 
     # Crear directorio
-    folder = PATH_DATA / proyecto / "output" / identificador
+        # TODO: decidir cómo organizar las salidas
+    folder = PATH_DATA / ambito / "output" / identificador
     folder.mkdir(exist_ok=True, parents=True)
 
     # Generar nombre de archivo

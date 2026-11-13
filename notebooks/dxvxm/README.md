@@ -1,20 +1,20 @@
 # Análisis de datos para DxVxM / DxVxD
 
-A fecha de 2026-10-08, en el Excel de la documentación se listan las siguientes fuentes:
+A fecha de 2026-11-11, en el Excel de la documentación se listan las siguientes fuentes:
 
-1. [Portal Estadístico de la Delegación del Gobierno contra la Violencia de Género](https://estadisticasviolenciagenero.igualdad.gob.es/) (PEDG)
+1. [Portal Estadístico de la Delegación del Gobierno contra la Violencia de Género](https://estadisticasviolenciagenero.igualdad.gob.es/)
 
     - Es un cubo(s) de datos gestionado con Saiku. No tiene API pública.
 
-2. [Portal estadístico de Criminalidad](https://estadisticasdecriminalidad.ses.mir.es/publico/portalestadistico/datos.html?path=%2FDatos4%2F&title=Victimizaciones&type=jaxi&utm_) (PEC)
+2. [Portal estadístico de Criminalidad](https://estadisticasdecriminalidad.ses.mir.es/publico/portalestadistico/)
 
     - Permite descargar datasets enteros.
 
-3. [Consejo General del Poder Judicial](https://www.poderjudicial.es/cgpj/es/Temas/Estadistica-Judicial/) (CGPJ)
+3. [Consejo General del Poder Judicial](https://www.poderjudicial.es/cgpj/es/Temas/Estadistica-Judicial/)
 
     - Tiene una BD que permite pregenerar un enlace reutilizable a una tabla.
 
-4. [INEbase](https://www.ine.es/inebmenu/queesinebase.htm) (INE)
+4. [INEbase](https://www.ine.es/dyngs/INEbase/listaoperaciones.htm)
 
     - Es la plataforma digital del Instituto Nacional de Estadística (INE), y una de las plataformas de datos abiertos más relevante del estado.
 
@@ -22,23 +22,36 @@ A fecha de 2026-10-08, en el Excel de la documentación se listan las siguientes
 
     - En realidad, los datasets de esta fuente se documentaban hasta ahora como procedentes de la Plataforma de datos abiertos del Gobierno de España: [datos.gob.es](https://datos.gob.es/es/). Es preferible directamente nombrar al INE, pues son los propietarios de los datos y los que los proporcionan.
 
-5. [Dades Obertes Catalunya](https://analisi.transparenciacatalunya.cat/) (DOC)
+5. [Dades Obertes Catalunya](https://analisi.transparenciacatalunya.cat/)
 
     - Posibilidad de exportar y de API.
 
-6. [Article de premsa a govern.cat](https://govern.cat/salapremsa/notes-premsa/420708/en-el-primer-any-de-funcionament-de-la-usav-s-han-ates-843-casos-de-violencies)
+6. [Idescat](https://www.idescat.cat/)
+
+    - Pendiente de análisis
+
+7. [Article de premsa a govern.cat](https://govern.cat/salapremsa/notes-premsa/420708/en-el-primer-any-de-funcionament-de-la-usav-s-han-ates-843-casos-de-violencies)
 
     - Es un artículo de prensa con tablas.
 
-7. La Ciba (Ajuntament de Santa Coloma de Gramenet) (CIBA)
+8. La Ciba (Ajuntament de Santa Coloma de Gramenet)
 
     - Envían datasets a IBOD.
+
+9. [La Justicia en Datos](https://datos.justicia.es/)
+
+    - En desuso.
+
+10.  [Central de Información Económico-Financiera](https://www.hacienda.gob.es/es-ES/CDI/Paginas/centraldeinformacion.aspx)
+    
+- Pendiente de análisis
+
 
 Nota: estas fuentes no tienen por qué ser las originales, pero son de donde IBOD extrae los datos.
 
 ## Algunas conclusiones para cada fuente
 
-### Fuente 1. [Portal Estadístico del Gobierno contra la Violencia de Género]((https://estadisticasviolenciagenero.igualdad.gob.es/)) (PEDG)
+### Fuente 1. [Portal Estadístico del Gobierno contra la Violencia de Género]((https://estadisticasviolenciagenero.igualdad.gob.es/))
 
 Este portal funciona con [Saiku](https://saiku.bi/), una capa de gestión por encima de lo que aparenta ser un *data warehouse*.
 
@@ -54,25 +67,13 @@ De forma manual, te obliga a descargar, por tanto, un subset (una tabla) basado 
 
 Con técnicas de scraping, se puede intentar generar el link de descarga de un subconjunto determinado. Se ha intentado hacer esto y, si bien se ha conseguido el enlace usando las herramientas de desarrollador, este caduca. Se debe descubrir cómo generar ese enlace y conseguirlo sin usar un navegador web.
 
-Datasets fuente empleados:
-
-- [dxvxm-generico-f_1-esp: Feminicidios en la pareja o expareja](./n1-PEDG-feminicidios.ipynb)
-
-- [dxvxm-generico-f_2-esp: Huérfanos y huérfanas menores de edad en feminicidios](./n1-PEDG-feminicidios.ipynb)
-
-- [dxvxm-generico-f_3-esp: Menores víctimas mortales de violencia de género](./n2-PEDG-feminicidios_victimas_menores.ipynb)
-
-- [dxvxm-generico-f_4-esp: Denuncias por violencia en la pareja o expareja](./n3-PEDG-denuncias.ipynb)
-
-- [dxvxm-generico-f_5-esp: Órdenes de protección](./n4-PEDG-ordenes_proteccion.ipynb)
-
-La mayoría de estos datos se desagregan por CCAA y año, algunos también por provincia y partido judicial.
+La mayoría de los datos de esta fuente se desagregan por CCAA y año, algunos también por provincia y partido judicial.
 
 Está pendiente decidir si se estandarizan estas desagregaciones para que en un futuro sea más fácil generar productos territoriales.
 
 - Es muy probable que cambie la forma en la que se descargan los datasets. También es probable que defina una serie de operaciones estandar a aplicar en todos ellos y que estandarice las columnas de las desagregaciones (que por alguna extraña razón no es estándar de por sí).
 
-### Fuente 2: [Portal estadístico de Criminalidad](https://estadisticasdecriminalidad.ses.mir.es/publico/portalestadistico/datos.html?path=%2FDatos4%2F&title=Victimizaciones&type=jaxi&utm_) (PEC)
+### Fuente 2: [Portal estadístico de Criminalidad](https://estadisticasdecriminalidad.ses.mir.es/publico/portalestadistico/)
 
 Este portal ofrece datasets bastante completos.
 
@@ -87,12 +88,6 @@ Además, hay enlaces que permiten descargar el CSV completo. No hay garantías d
 - También está pendiente documentar la descarga manual, por si el enlace deja de funcionar.
 
 Aunque por ahora solo se utilizan dos datasets, contiene otros interesantes que se podrían explorar.
-
-Datasets fuente empleados:
-
-- [dxvxm-generico-f_6-esp: Victimizaciones por tipología penal](./n5-PEC-victimizaciones.ipynb)
-
-- [dxvxm-generico-f_7-esp: Hechos esclarecidos contra la libertad sexual](./n6-PEC-hechos_esclarecidos.ipynb)
 
 Los datos se puden desagregar por CCAA y año, entre otros.
 
@@ -129,7 +124,7 @@ Para algunas categorías, como homicidios consumados y determinados robos, hay c
 Esto puede afectar a las comparaciones temporales de Cataluña y generar rupturas estadísticas que no necesariamente reflejan cambios reales en la criminalidad.
 ```
 
-### Fuente 3: [Consejo General del Poder Judicial](https://www.poderjudicial.es/cgpj/es/Temas/Estadistica-Judicial/) (CGPJ)
+### Fuente 3: [Consejo General del Poder Judicial](https://www.poderjudicial.es/cgpj/es/Temas/Estadistica-Judicial/)
 
 Se suben archivos periódicamente, lo que compromete la estandarización.
 
@@ -145,19 +140,9 @@ La forma más sencilla de gestionar este dataset es haciendo que el usuario util
 
     - Se debe [estudiar cómo aprovechar esto](./n7_0-CGPJ-BBDD.ipynb) y cómo conseguir las agrefaciones que aparecen, por ejemplo, en el PDF.
 
-Datasets fuente empleados:
-
-- [dxvxm-generico-f_8-esp: Porcentaje de condenas por violencia de género](./n7_1-CGPJ-porcentaje_condenas.ipynb)
-
-- [dxvxm-generico-f_9-esp: Delitos contra la libertad e indemnidad sexual](./n7_2-CGPJ-delitos.ipynb)
-
 Los datos se pueden desagregar en CCAA, provincias partidos judiciales y otros.
 
-### Fuente 4: [INEbase](https://www.ine.es/inebmenu/queesinebase.htm)
-
-Datasets fuente empleados:
-
-- [dxvxm-generico-f_10-esp](./n8-INE-victimizaciones2.ipynb)
+### Fuente 4: [INEbase](https://www.ine.es/dyngs/INEbase/listaoperaciones.htm)
 
 ### Fuente 5: [Dades Obertes Catalunya]((https://analisi.transparenciacatalunya.cat/))
 
@@ -165,26 +150,18 @@ Este portal es muy sofisticado. Permite exportar un dataset entero a partir de u
 
 Está construido con [Socrata](https://dev.socrata.com/), y permite ejecutar queries en formato SQL sobre un recurso (una tabla). La interfaz web también permite ejecutar consultar y ver la tabla conforme se va filtrando.
 
-Datasets fuente empleados:
+### Fuente 6: [Idescat](https://www.idescat.cat/)
 
-- [dxvxm-generico-f_11-cat](./n9-DOC-atencions_siad.ipynb)
-
-- [dxvxm-generico-f_12-cat](./n10-DOC-atencions_tel.ipynb)
-
-- [dxvxm-generico-f_13-cat](./n11-DOC-delictes.ipynb)
-
-- [dxvxm-generico-f_14-cat](./n12-DOC-ambit_social.ipynb)
-
-### Fuente 6: [Article de premsa a govern.cat](https://govern.cat/salapremsa/notes-premsa/420708/en-el-primer-any-de-funcionament-de-la-usav-s-han-ates-843-casos-de-violencies)
+### Fuente 7: [Article de premsa a govern.cat](https://govern.cat/salapremsa/notes-premsa/420708/en-el-primer-any-de-funcionament-de-la-usav-s-han-ates-843-casos-de-violencies)
 
 Esta fuente es un artículo que contiene algunos datos en tablas. No se actualiza.
 
-- Pendiente de analizar
+- Pendiente de análisis
 
-### Fuente 7: La Ciba (Ajuntament de Santa Coloma de Gramenet)
+### Fuente 8: La Ciba (Ajuntament de Santa Coloma de Gramenet)
 
 Estos datos se envían a IBOD, por lo que no tienen por qué ser públicos.
 
 En según qué ocasiones, es necesario anonimizar los datasets.
 
-- Pendiente de analizar
+- Pendiente de análisis
